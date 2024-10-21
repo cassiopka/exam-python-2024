@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h4 class="text-center my-3">Рецензии на книгу "{{book.name}}"</h4>
+        <ul>
+            {% for review in reviews %}
+            <li>
+                <p>Автор: {{ review.last_name }} {{ review.first_name }} 
+                    {% if middle_name %}
+                        {{ middle_name }}
+                    {% endif %} </p>            
+                <p>Текст рецензии: {{ review.text }}</p>                        
+                <p>Оценка: 
+                    {% if review.rate == 0 %} ужасно {% endif %}
+                    {% if review.rate == 1 %} плохо {% endif %}
+                    {% if review.rate == 2 %} неудовлетворительно {% endif %}
+                    {% if review.rate == 3 %} удовлетворительно {% endif %}
+                    {% if review.rate == 4 %} хорошо {% endif %}
+                    {% if review.rate == 5 %} oтлично {% endif %}</p>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="text-center">
+            <a style="background-color: #341711; color:#fef2eb; border-color: #fef2eb;"
+              class="btn" href="{{ url_for('index') }}">Назад</a>
+        </div>    
+    </div>
+{% endblock %}

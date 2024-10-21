@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container my-3">
+      <h4 class="text-center">{{book.author}}: "{{book.name}}"</h4>
+      <p>{{book.description}}</p>
+      <p>Жанр(ы): {{book.genres}}</p>
+      <p>Год издания: {{book.year}}</p>
+      <p>Средняя оценка: 
+        {% if book.rating_sum %} 
+          {{book.rating_sum}} 
+        {% else %} 
+          эту книгу пока не оценили 
+        {% endif %}</p>
+      <p>Количество рецензий: 
+        {% if book.rating_count %} 
+          {{book.rating_count}} 
+        {% else %} 
+          у этой книги пока нет рецензий 
+        {% endif %}</p>
+      <p>Издательство: {{book.publishing}}</p>
+
+      {% if review %}
+        <div class="my-3">
+          <h5 class="text-center">Ваша рецензия на книгу "{{ book.name }}":</h5>
+          <div class="my-2">{{ review.text }}</div>
+          <h5 class="text-center">Ваша оценка:
+          {% if review.rate == 0 %} ужасно {% endif %}
+          {% if review.rate == 1 %} плохо {% endif %}
+          {% if review.rate == 2 %} неудовлетворительно {% endif %}
+          {% if review.rate == 3 %} удовлетворительно {% endif %}
+          {% if review.rate == 4 %} хорошо {% endif %}
+          {% if review.rate == 5 %} oтлично {% endif %}
+          </h5>
+          {% if current_user.is_authenticated %}
+            <div class="text-center mt-3">
+              <a style="background-color: #341711; color:#fef2eb; border-color: #fef2eb;"
+              class="btn btn-danger delete" data-bs-toggle="modal" data-bs-target="#deleteModal_{{book.id}}">Удалить рецензию</a>
+            </div>
+            <!--Модальное окно удаления книги-->
+            <div class="modal fade" id="deleteModal_{{book.id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div style="background-color: #fef2eb;" class="modal-content">
+                        <!-- Заголовок модального окна -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Удаление книги</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="mx-3 my-5 text-center">Вы уверены, что хотите удалить вашу рецензию"?</div>
+                        <!-- Футер модального окна -->
+                        <div class="modal-footer">
+                            <a  style="background-color: #341711; color:#fef2eb; border-color: #fef2eb;"
+                                type="button" class="btn" href="{{url_for('review.delete_review', review_id=review_id)}}">Уверен</a>
+                            <a  style="background-color: #fef2eb; color:#341711; border-color: #341711;"
+                                type="button" class="btn" data-bs-dismiss="modal">Не уверен</a>
+                        </div>
+                    </div>
+                </div>
+          </div>
+        {% endif %}
+      {% elif current_user.is_authenticated %}
+        <div class="text-center">
+          <a style="background-color: #341711; color:#fef2eb; border-color: #fef2eb;"
+            class="btn my-3" href="{{ url_for('review.review', book_id=book.id) }}">Написать рецензию на книгу "{{book.name}}"</a>
+        </div>
+      {% endif %}
+      <div class="text-center">
+        <a style="background-color: #341711; color:#fef2eb; border-color: #fef2eb;"
+          class="btn my-3" href="{{ url_for('review.show_reviews', book_id=book_id) }}">Посмотреть другие рецензии</a>
+      </div>
+
+      <div class="text-center">
+        <a style="background-color: #341711; color:#fef2eb; border-color: #fef2eb;"
+          class="btn" href="{{ url_for('index') }}">Назад</a>
+      </div>
+    </div>
+{% endblock %}

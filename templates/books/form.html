@@ -1,0 +1,85 @@
+{% macro form_book(book, genres)%}
+<form method="POST">
+    <div class="my-3">
+      <label for="name" class="form-label">Название книги</label>
+      <input
+        name="name"
+        type="login"
+        class="form-control"
+        id="login"
+        aria-describedby="loginHelp"
+        value="{{book.name or ''}}"
+        required/>
+    </div>
+    
+    <div class="mb-3">
+      <label for="author" class="form-label">Автор книги</label>
+      <input
+        name="author"
+        type="login"
+        class="form-control"
+        id="author"
+        value="{{book.author or ''}}"
+        required/>
+    </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Описание книги</label>
+    <input
+      class="form-control flex-grow-1" 
+      name="description" 
+      cols="30" rows="5"
+      id="description"
+      aria-describedby="loginHelp"
+      value="{{book.description or ''}}"
+      required/>
+  </div>
+
+  <div class="mb-3">
+    <label for="pages" class="form-label">Количество страниц</label>
+    <input
+      name="pages"
+      type="login"
+      class="form-control"
+      id="pages"
+      aria-describedby="loginHelp"
+      value="{{book.pages or ''}}"/>
+  </div>
+  <div class="mb-3">
+    <label for="year" class="form-label">Год издания</label>
+    <input
+      name="year"
+      type="login"
+      class="form-control"
+      id="year"
+      aria-describedby="loginHelp"
+      value="{{book.year or ''}}" 
+      />
+  </div>
+  <div class="mb-3">
+    <label for="publishing" class="form-label">Издательство</label>
+    <input
+      name="publishing"
+      type="login"
+      class="form-control"
+      id="publishing"
+      aria-describedby="loginHelp"
+      value="{{book.publishing or ''}}" 
+      />
+  </div>
+ 
+  <div class="mb-3">
+    <label for="genre" class="form-label">Жанр(ы)</label>
+    <select class="form-control" aria-label="Default select example" id="genres" name="genre_id" multiple>
+        {% for genre in genres %}
+            <option value="{{ genre.id }}">{{ genre.name }}</option>
+        {% endfor %}
+    </select>
+  </div>
+
+  <div class="col text-center">
+    <button style="background-color: #341711; color:#fef2eb; border-color: #fef2eb;"
+     type="submit" class="btn mb-3">Сохранить</button>
+  </div>
+</form>
+{% endmacro %}
